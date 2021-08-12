@@ -3,6 +3,7 @@
 # --dirname - where to do the worker
 # --verison - version for the tgz name
 set -e
+set -x
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --dirname) RELEASE_DIR="$2"; shift ;;
@@ -34,6 +35,8 @@ echo "tar name: $TAR_NAME"
 mkdir -p $OUTPUT_DIR
 cp -r examples/secure-roks-cluster/ $OUTPUT_DIR
 cp -R modules $OUTPUT_DIR
+ls -Fal $OUTPUT_DIR
+
 # sed the files
 # note, if GNU, we'll need to modify this
 sed -i -e 's#../../modules#./modules#g' $OUTPUT_DIR/*.tf
