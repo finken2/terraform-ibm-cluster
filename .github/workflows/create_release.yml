@@ -1,6 +1,9 @@
 name: Make release
 
-on: push
+on:
+  push:
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
@@ -10,10 +13,8 @@ jobs:
           uses: actions/checkout@v2
         - name: Build tgz
           run: bash make-release-secure.sh --dirname gh --version ${{ github.ref }}
-          if: startsWith(github.ref, 'refs/tags/')
         - name: Release
           uses: softprops/action-gh-release@v1
-          if: startsWith(github.ref, 'refs/tags/')
           with:
               files: 
                 releases/secure-cluster-*.tgz
