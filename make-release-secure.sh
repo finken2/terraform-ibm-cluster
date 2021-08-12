@@ -25,7 +25,6 @@ fi
 # remove refs/tags/
 # safeguard more
 RELEASE_VERSION=${RELEASE_VERSION:10}
-RELEASE_VERSION='v1'
 OUTPUT_DIR=releases/$RELEASE_DIR/secure-roks-cluster
 TAR_NAME="secure-cluster-v$RELEASE_VERSION.tgz"
 
@@ -35,12 +34,13 @@ echo "tar name: $TAR_NAME"
 
 mkdir -p $OUTPUT_DIR
 cp -r examples/secure-roks-cluster/. $OUTPUT_DIR
-cp -R modules $OUTPUT_DIR
-ls -Fal $OUTPUT_DIR
+# cp -R modules $OUTPUT_DIR
+# ls -Fal $OUTPUT_DIR
 
 # sed the files
 # note, if GNU, we'll need to modify this
-sed -i -e 's#../../modules#./modules#g' $OUTPUT_DIR/*.tf
+# For secure cluster right now, modules diretory isn't even needed. If it is, double check the seding is working
+# sed -i -e 's#../../modules#./modules#g' $OUTPUT_DIR/*.tf
 # tar the files
 cd $OUTPUT_DIR/..
 
