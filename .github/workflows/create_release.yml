@@ -16,4 +16,4 @@ jobs:
           if: startsWith(github.ref, 'refs/tags/')
           with:
               files: 
-                secure-cluster-**.tgz
+                releases/secure-cluster-*.tgz
