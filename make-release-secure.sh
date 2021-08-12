@@ -36,7 +36,7 @@ cp -r examples/secure-roks-cluster/ $OUTPUT_DIR
 cp -R modules $OUTPUT_DIR
 # sed the files
 # note, if GNU, we'll need to modify this
-sed -i '' 's#../../modules#./modules#g' $OUTPUT_DIR/*.tf
+sed -i -e 's#../../modules#./modules#g' $OUTPUT_DIR/*.tf
 # tar the files
 cd $OUTPUT_DIR/..
 
