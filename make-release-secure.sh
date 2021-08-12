@@ -25,6 +25,7 @@ fi
 # remove refs/tags/
 # safeguard more
 RELEASE_VERSION=${RELEASE_VERSION:10}
+RELEASE_VERSION='v1'
 OUTPUT_DIR=releases/$RELEASE_DIR/secure-roks-cluster
 TAR_NAME="secure-cluster-v$RELEASE_VERSION.tgz"
 
