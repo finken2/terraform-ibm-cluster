@@ -33,7 +33,7 @@ echo "output directory: $OUTPUT_DIR"
 echo "tar name: $TAR_NAME"
 
 mkdir -p $OUTPUT_DIR
-cp -r examples/secure-roks-cluster/ $OUTPUT_DIR
+cp -R examples/secure-roks-cluster/ $OUTPUT_DIR
 cp -R modules $OUTPUT_DIR
 ls -Fal $OUTPUT_DIR
 
