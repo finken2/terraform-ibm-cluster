@@ -3,7 +3,7 @@
 # --dirname - where to do the worker
 # --verison - version for the tgz name
 set -e
-set -x
+# set -x
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --dirname) RELEASE_DIR="$2"; shift ;;
@@ -22,11 +22,12 @@ if [ -z "$RELEASE_VERSION" ]; then
   exit 1
 fi
 
-# remove refs/tags/
-# safeguard more
-RELEASE_VERSION=${RELEASE_VERSION:10}
+# remove refs/tags/sc- to get the version number
+if [[ $RELEASE_VERSION == refs/tags/sc-* ]]; then
+  RELEASE_VERSION=${RELEASE_VERSION:13}
+fi
 OUTPUT_DIR=releases/$RELEASE_DIR/secure-roks-cluster
-TAR_NAME="secure-cluster-v$RELEASE_VERSION.tgz"
+TAR_NAME="secure-cluster-$RELEASE_VERSION.tgz"
 
 echo "RELEASE VERSION: $RELEASE_VERSION"
 echo "output directory: $OUTPUT_DIR"
@@ -34,17 +35,15 @@ echo "tar name: $TAR_NAME"
 
 mkdir -p $OUTPUT_DIR
 cp -r examples/secure-roks-cluster/. $OUTPUT_DIR
+# For secure cluster right now, modules diretory isn't even needed. If it is, double check the sed'ing is working
+# note, gnu sed. if running on mac, set it up first. (or add a '' after -i)
 # cp -R modules $OUTPUT_DIR
-# ls -Fal $OUTPUT_DIR
+# sed -i 's#../../modules#./modules#g' $OUTPUT_DIR/*.tf
 
-# sed the files
-# note, if GNU, we'll need to modify this
-# For secure cluster right now, modules diretory isn't even needed. If it is, double check the seding is working
-# sed -i -e 's#../../modules#./modules#g' $OUTPUT_DIR/*.tf
 # tar the files
 cd $OUTPUT_DIR/..
 
-# chown should only be needed locally so username isn't in tar
+# chown is only needed locally so username isn't in tar
 # chown -R nobody secure-roks-cluster
 echo `pwd`
 tar -czf ../$TAR_NAME secure-roks-cluster
