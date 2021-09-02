@@ -1,4 +1,4 @@
-name: Main
+name: Make release
 
 on: push
 
@@ -8,6 +8,17 @@ jobs:
     steps:
         - name: Checkout
           uses: actions/checkout@v2
+        - name: Bump version and push tag
+          id: tag_version
+          uses: mathieudutour/github-tag-action@v5.6
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            tag_prefix: sc-v
+        - name: Build tgz
+          run: bash make-release-secure.sh --dirname gh --version ${{ steps.tag_version.outputs.new_tag }}
         - name: Release
           uses: softprops/action-gh-release@v1
-          if: startsWith(github.ref, 'refs/tags/')
+          with:
+              tag_name: ${{ steps.tag_version.outputs.new_tag }}
+              files: 
+                releases/secure-cluster-*.tgz
