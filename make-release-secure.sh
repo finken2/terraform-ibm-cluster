@@ -22,9 +22,11 @@ if [ -z "$RELEASE_VERSION" ]; then
   exit 1
 fi
 
-# remove refs/tags/sc- to get the version number
+# remove refs/tags/sc- to get the version number (in different tags scenario, not used currently, 2nd if is)
 if [[ $RELEASE_VERSION == refs/tags/sc-* ]]; then
   RELEASE_VERSION=${RELEASE_VERSION:13}
+elif [[ $RELEASE_VERSION == sc-* ]]; then
+  RELEASE_VERSION=${RELEASE_VERSION:3}
 fi
 OUTPUT_DIR=releases/$RELEASE_DIR/secure-roks-cluster
 TAR_NAME="secure-cluster-$RELEASE_VERSION.tgz"
